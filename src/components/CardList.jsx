@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import Card from './Card';
-//
+
 function CardList({ object: { meals, drinks } }) {
   const MAX_CARD_LENGTH = 11;
   return (
@@ -16,7 +16,6 @@ function CardList({ object: { meals, drinks } }) {
             name={ food.strMeal }
           />
         )) : null}
-
       {(drinks) ? drinks
         .filter((_, index) => index <= MAX_CARD_LENGTH)
         .map((drink, index) => (

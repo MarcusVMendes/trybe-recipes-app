@@ -9,10 +9,13 @@ import searchIcon from '../images/searchIcon.svg';
 function Header({ setTitle, setSearchbar, search }) {
   function openSearchBar() {
     setSearchbar(!search);
-    console.log(search);
   }
 
   const history = useHistory();
+
+  function perfilRoute() {
+    history.push('/perfil');
+  }
 
   return (
     <header>
@@ -22,7 +25,7 @@ function Header({ setTitle, setSearchbar, search }) {
           data-testid="profile-top-btn"
           src={ profileIcon }
           alt="perfil"
-          onClick={ () => history.push('/perfil') }
+          onClick={ perfilRoute }
         />
         <h1 data-testid="page-title">{ setTitle }</h1>
         <input

@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function Card({ image, name, id }) {
-  // console.log(name)
+function Card({ id, image, name }) {
   return (
     <div data-testid={ `${id}-recipe-card` } className="card-container">
       <img

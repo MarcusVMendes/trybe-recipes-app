@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
 import React from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router';
 import Card from './Card';
 
-function CardList({ object: { meals, drinks } }) {
+function CardList({ loadFoods, loadDrinks }) {
   const MAX_CARD_LENGTH = 11;
+  const { location: { pathname } } = useHistory();
   return (
     <div>
-      {(meals) ? meals
+      {(pathname === '/comidas') ? loadFoods
         .filter((_, index) => index <= MAX_CARD_LENGTH)
         .map((food, index) => (
           <Card
@@ -16,7 +19,8 @@ function CardList({ object: { meals, drinks } }) {
             name={ food.strMeal }
           />
         )) : null}
-      {(drinks) ? drinks
+
+      {(pathname === '/bebidas') ? loadDrinks
         .filter((_, index) => index <= MAX_CARD_LENGTH)
         .map((drink, index) => (
           <Card
@@ -31,8 +35,13 @@ function CardList({ object: { meals, drinks } }) {
   );
 }
 
+const mapStateToProps = (state) => ({
+  loadDrinks: state.loadDrinks,
+  loadFoods: state.loadFoods,
+});
+
 CardList.propTypes = {
   object: PropTypes.objectOf(PropTypes.object),
 }.isRequired;
 
-export default CardList;
+export default connect(mapStateToProps)(CardList);

@@ -12,7 +12,6 @@ function RecipesInProgress() {
       <p data-testid="{index}-ingredient-step">Ingredientes</p>
       <p data-testid="instructions">Instruções</p>
       <button type="button" data-testid="finish-recipe-btn">Finalizar Receita</button>
-
     </div>
   );
 }

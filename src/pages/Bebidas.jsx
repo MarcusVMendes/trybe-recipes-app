@@ -14,13 +14,11 @@ function Bebidas({ search, radioButton, searchInput, setLoadDrinks }) {
   const { location: { pathname } } = useHistory();
 
   useEffect(() => {
-    const initialRequest = {
-      '/bebidas': async () => {
-        const { drinks } = await drinkRequest('search.php?s');
-        setLoadDrinks(drinks);
-      },
-    };
-    initialRequest[pathname]();
+    async function initialRequest() {
+      const { drinks } = await drinkRequest('search.php?s');
+      setLoadDrinks(drinks);
+    }
+    initialRequest();
   }, [pathname, setLoadDrinks]);
 
   /*

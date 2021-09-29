@@ -12,7 +12,8 @@ import FavoritesRecipes from './pages/FavoritesRecipes';
 import RecipesMade from './pages/RecipesMade';
 import Perfil from './pages/Perfil';
 import RecipesDetails from './pages/RecipesDetails';
-import RecipesInProgress from './pages/RecipesInProgress';
+import InProgressDrinks from './pages/InProgressDrinks';
+import InProgressFoods from './pages/InProgressFoods';
 
 function App() {
   return (
@@ -24,8 +25,8 @@ function App() {
         <Route exact path="/bebidas" component={ Bebidas } />
         <Route exact path="/comidas/:id" component={ RecipesDetails } />
         <Route exact path="/bebidas/:id" component={ RecipesDetails } />
-        <Route exact path="/comidas/:id/in-progress" component={ RecipesInProgress } />
-        <Route exact path="/bebidas/:id/in-progress" component={ RecipesInProgress } />
+        <Route exact path="/comidas/:id/in-progress" component={ InProgressFoods } />
+        <Route exact path="/bebidas/:id/in-progress" component={ InProgressDrinks } />
         <Route exact path="/explorar" component={ Explorer } />
         <Route exact path="/explorar/comidas" component={ Login } />
         <Route exact path="/explorar/bebidas" component={ Login } />

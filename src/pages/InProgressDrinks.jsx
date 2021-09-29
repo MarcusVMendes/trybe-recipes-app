@@ -10,6 +10,7 @@ function InProgressDrinks({ match: { params: { id } } }) {
       const url = 'https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=';
       const response = await fetch(`${url}${id}`);
       const { drinks } = await response.json();
+
       setData(drinks);
 
       const objeto = [];
@@ -26,8 +27,6 @@ function InProgressDrinks({ match: { params: { id } } }) {
     }
     requestDrink();
   }, [id]);
-
-  console.log(ingredientList);
 
   return (
     <div>
@@ -56,11 +55,15 @@ function InProgressDrinks({ match: { params: { id } } }) {
   );
 }
 
-InProgressDrinks.protoType = {
-  match: PropTypes.shape({
-    id: PropTypes.number.isRequired,
-  }).isRequired,
-};
+// InProgressDrinks.propType = {
+//   match: PropTypes.shape({
+//     id: PropTypes.number.isRequired,
+//   }).isRequired,
+// };
+
+InProgressDrinks.propTypes = {
+  match: PropTypes.objectOf(PropTypes.number),
+}.isRequired;
 
 export default InProgressDrinks;
 

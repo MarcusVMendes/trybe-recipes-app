@@ -30,6 +30,7 @@ function InProgressFoods({ match: { params: { id } } }) {
     return (
       array.map((ingredient, index) => (
         <li key={ ingredient } data-testid={ `${index}-ingredient-step` }>
+          <input type="checkbox" />
           { ingredient }
           {' '}
           { measureArray[index] }

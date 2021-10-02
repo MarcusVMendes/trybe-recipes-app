@@ -1,4 +1,3 @@
-// Tela de receita em progresso: requisitos 47 a 53;
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -31,6 +30,7 @@ function InProgressDrinks({ match: { params: { id } } }) {
     return (
       array.map((ingredient, index) => (
         <li key={ ingredient } data-testid={ `${index}-ingredient-step` }>
+          <input type="checkbox" />
           { ingredient }
           {' '}
           { measureArray[index] }

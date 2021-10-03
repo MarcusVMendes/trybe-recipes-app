@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 function InProgressFoods({ match: { params: { id } } }) {
   const [data, setData] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     async function requestFoods() {
@@ -56,7 +58,13 @@ function InProgressFoods({ match: { params: { id } } }) {
           {renderIngredients(ingredientsArray)}
         </ul>
         <p data-testid="instructions">Instruções</p>
-        <button type="button" data-testid="finish-recipe-btn">Finalizar Receita</button>
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          onClick={ () => history.push('/receitas-feitas') }
+        >
+          Finalizar Receita
+        </button>
       </div>
     </div>
   );

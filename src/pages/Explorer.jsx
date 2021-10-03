@@ -1,6 +1,7 @@
 // Tela de explorar: Requisitos 67 a 69
 import React from 'react';
 import { useHistory } from 'react-router';
+import Footer from '../components/Footer';
 import Header from '../components/Header';
 
 function Explorer() {
@@ -22,6 +23,7 @@ function Explorer() {
       >
         Explorar Bebidas
       </button>
+      <Footer />
     </div>
   );
 }

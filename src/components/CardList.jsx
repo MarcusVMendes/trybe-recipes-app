@@ -41,7 +41,8 @@ const mapStateToProps = (state) => ({
 });
 
 CardList.propTypes = {
-  object: PropTypes.objectOf(PropTypes.object),
-}.isRequired;
+  loadFoods: PropTypes.arrayOf(PropTypes.object).isRequired,
+  loadDrinks: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default connect(mapStateToProps)(CardList);

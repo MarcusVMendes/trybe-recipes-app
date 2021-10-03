@@ -58,7 +58,13 @@ function InProgressDrinks({ match: { params: { id } } }) {
           {renderIngredients(ingredientsArray)}
         </ul>
         <p data-testid="instructions">Instruções</p>
-        <button type="button" data-testid="finish-recipe-btn" onClick={ () => history.push('/receitas-feitas') }>Finalizar Receita</button>
+        <button
+          type="button"
+          data-testid="finish-recipe-btn"
+          onClick={ () => history.push('/receitas-feitas') }
+        >
+          Finalizar Receita
+        </button>
       </div>
     </div>
   );

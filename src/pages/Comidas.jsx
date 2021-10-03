@@ -8,21 +8,26 @@ import Footer from '../components/Footer';
 import { foodRequest } from '../services/data';
 import CardList from '../components/CardList';
 import SearchBar from '../components/SearchBar';
-import { setLoadFoods as setLoadFoodsAction,
-  setLoadDrinks as setLoadDrinksAction } from '../Redux/actions';
+import handleSubmitFoods from '../helper/helperFunctionsFoods';
+import { setLoadFoods as setLoadFoodsAction } from '../Redux/actions';
 
-function Home({ search, radioButton, searchInput, setLoadFoods }) {
-  const { location: { pathname } } = useHistory();
+function FoodsPage({ search, setLoadFoods, radioButton, searchInput, foodsIngredients }) {
+  const history = useHistory();
+  const { location: { pathname } } = history;
 
   useEffect(() => {
-    const initialRequest = {
-      '/comidas': async () => {
-        const { meals } = await foodRequest('search.php?s');
-        setLoadFoods(meals);
-      },
-    };
-    initialRequest[pathname]();
-  }, [pathname, setLoadFoods]);
+    if (foodsIngredients.length !== 0) {
+      setLoadFoods(foodsIngredients);
+    } else {
+      const initialRequest = {
+        '/comidas': async () => {
+          const { meals } = await foodRequest('search.php?s');
+          setLoadFoods(meals);
+        },
+      };
+      initialRequest[pathname]();
+    }
+  }, [pathname, setLoadFoods, foodsIngredients]);
 
   /*
   Object Literals realizado por sugestão do Gabs para resolver o problema de complexidade do código gerado
@@ -31,37 +36,15 @@ function Home({ search, radioButton, searchInput, setLoadFoods }) {
   https://blog.rocketseat.com.br/substituindo-a-instrucao-switch-por-object-literal/
   */
 
-  async function handleSubmitButton() {
-    const requestApi = {
-      '/comidas': {
-        ingredient: async (input) => {
-          const { meals } = await foodRequest(`filter.php?i=${input}`);
-          setLoadFoods(meals);
-        },
-        name: async (input) => {
-          const { meals } = await foodRequest(`search.php?s=${input}`);
-          setLoadFoods(meals);
-        },
-        'first-letter': async (input) => {
-          if (input.length === 1) {
-            const { meals } = foodRequest(`search.php?f=${input}`);
-            setLoadFoods(await meals);
-          } else {
-            global.alert('Sua busca deve conter somente 1 (um) caracter');
-            console.log('2 letras');
-          }
-        },
-      },
-    };
-    requestApi[pathname][radioButton](searchInput);
-  }
-
   return (
     <div>
       <Header setTitle="Comidas" />
 
-      {search === true
-        ? <SearchBar handleSubmitButton={ handleSubmitButton } />
+      {search === true ? <SearchBar
+        handleSubmitButton={ () => handleSubmitFoods(
+          searchInput, setLoadFoods, radioButton, history,
+        ) }
+      />
         : null}
       <CardList />
 
@@ -70,11 +53,12 @@ function Home({ search, radioButton, searchInput, setLoadFoods }) {
   );
 }
 
-Home.propTypes = {
+FoodsPage.propTypes = {
   radioButton: PropTypes.string.isRequired,
   search: PropTypes.bool.isRequired,
-  searchInput: PropTypes.string.isRequired,
   setLoadFoods: PropTypes.func.isRequired,
+  searchInput: PropTypes.string.isRequired,
+  foodsIngredients: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -83,11 +67,11 @@ const mapStateToProps = (state) => ({
   searchInput: state.searchInput,
   drinks: state.drinks,
   foods: state.foods,
+  foodsIngredients: state.loadFoodsIngredients,
 });
 
 const mapDispatchToProps = (dispatch) => ({
   setLoadFoods: (payload) => dispatch(setLoadFoodsAction(payload)),
-  setLoadDrinks: (payload) => dispatch(setLoadDrinksAction(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(FoodsPage);

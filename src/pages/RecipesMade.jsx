@@ -1,7 +1,9 @@
 // Tela de receitas feitas: requisitos 54 a 59;
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import ButtonShare from '../components/ButtonShare';
+import copy from 'clipboard-copy';
+import shareIcon from '../images/shareIcon.svg';
+import Header from '../components/Header';
 
 const STATE_DONE = {
   buttonFilter: null,
@@ -37,6 +39,34 @@ function buttonChangeFilter(setState) {
 
 function RecipesMade() {
   const history = useHistory();
+  const [state, setState] = useState(STATE_DONE);
+  const { buttonFilter } = state;
+  const [dataFoods, setFoods] = useState();
+  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
+  const [visibleMessage, setVisibleMessage] = useState(true);
+
+  useEffect(() => {
+    async function updateData() {
+      const urlFoods = 'https://www.themealdb.com/api/json/v1/1/search.php?s';
+      const responseFoods = await fetch(urlFoods).then((res) => res.json());
+      setFoods(responseFoods.meals);
+    }
+
+    updateData();
+  }, []);
+
+  function buttonCopy(event) {
+    setVisibleMessage(false);
+    const oneSecond = 1000;
+    const { id } = event.target.parentNode;
+    const validation = dataFoods.some((food) => (food.idMeal === id));
+    if (!validation) {
+      copy(`http://localhost:3000/comidas/${id}`);
+    } else {
+      copy(`http://localhost:3000/bebidas/${id}`);
+    }
+    setTimeout(() => setVisibleMessage(true), oneSecond);
+  }
 
   function itemDone(item, index) {
     const { id, type, area, category, alcoholicOrNot, name, image,
@@ -70,7 +100,13 @@ function RecipesMade() {
             </p>
           ))}
           <p data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</p>
-          <ButtonShare index={ index } />
+          <input
+            data-testid={ `${index}-horizontal-share-btn` }
+            type="image"
+            onClick={ buttonCopy }
+            src={ shareIcon }
+            alt="shareIcon"
+          />
         </div>
       );
     }
@@ -95,20 +131,33 @@ function RecipesMade() {
         <p>{ category }</p>
         <p data-testid={ `${index}-horizontal-top-text` }>{ alcoholicOrNot }</p>
         <p data-testid={ `${index}-horizontal-done-date` }>{ doneDate }</p>
-        <ButtonShare index={ index } />
+        <input
+          data-testid={ `${index}-horizontal-share-btn` }
+          type="image"
+          onClick={ buttonCopy }
+          src={ shareIcon }
+          alt="shareIcon"
+        />
       </div>
     );
   }
 
-  const [state, setState] = useState(STATE_DONE);
-  const { buttonFilter } = state;
-  const doneRecipes = JSON.parse(localStorage.getItem('doneRecipes') || '[]');
+  if (!dataFoods) {
+    return (
+      <>
+        <Header setTitle="Receitas Feitas" />
+        <h1> Carregando...</h1>
+      </>
+    );
+  }
 
-  if (doneRecipes.length === 0) { return (<h1> Não há receitas finalizadas </h1>); }
+  if (doneRecipes.length === 0) { return (<Header setTitle="Receitas Feitas" />); }
 
   if (buttonFilter === 'comida') {
     return (
       <>
+        <Header setTitle="Receitas Feitas" />
+        <p hidden={ visibleMessage }>Link copiado!</p>
         { buttonChangeFilter(setState) }
         {
           doneRecipes
@@ -126,6 +175,8 @@ function RecipesMade() {
   if (buttonFilter === 'bebida') {
     return (
       <>
+        <Header setTitle="Receitas Feitas" />
+        <p hidden={ visibleMessage }>Link copiado!</p>
         { buttonChangeFilter(setState) }
         {
           doneRecipes
@@ -142,6 +193,8 @@ function RecipesMade() {
 
   return (
     <>
+      <Header setTitle="Receitas Feitas" />
+      <p hidden={ visibleMessage }>Link copiado!</p>
       { buttonChangeFilter(setState) }
       {
         doneRecipes.map((item, index) => (

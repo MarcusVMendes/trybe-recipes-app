@@ -8,18 +8,28 @@ import Footer from '../components/Footer';
 import { drinkRequest } from '../services/data';
 import CardList from '../components/CardList';
 import SearchBar from '../components/SearchBar';
+import handleSubmitDrinks from '../helper/helperFunctionsDrinks';
 import { setLoadDrinks as setLoadDrinksAction } from '../Redux/actions';
 
-function Bebidas({ search, radioButton, searchInput, setLoadDrinks }) {
-  const { location: { pathname } } = useHistory();
+function DrinksPage(
+  { search, radioButton, searchInput, setLoadDrinks, drinksIngredients },
+) {
+  const history = useHistory();
+  const { location: { pathname } } = history;
 
   useEffect(() => {
-    async function initialRequest() {
-      const { drinks } = await drinkRequest('search.php?s');
-      setLoadDrinks(drinks);
+    if (drinksIngredients.length !== 0) {
+      setLoadDrinks(drinksIngredients);
+    } else {
+      const initialRequest = {
+        '/bebidas': async () => {
+          const { drinks } = await drinkRequest('search.php?s');
+          setLoadDrinks(drinks);
+        },
+      };
+      initialRequest[pathname]();
     }
-    initialRequest();
-  }, [pathname, setLoadDrinks]);
+  }, [pathname, setLoadDrinks, drinksIngredients]);
 
   /*
   Object Literals realizado por sugestão do Gabs para resolver o problema de complexidade do código gerado
@@ -27,36 +37,16 @@ function Bebidas({ search, radioButton, searchInput, setLoadDrinks }) {
 
   https://blog.rocketseat.com.br/substituindo-a-instrucao-switch-por-object-literal/
   */
-  async function handleSubmitButton() {
-    const requestApi = {
-      '/bebidas': {
-        ingredient: async (input) => {
-          const { drinks } = await drinkRequest(`filter.php?i=${input}`);
-          setLoadDrinks(drinks);
-        },
-        name: async (input) => {
-          const { drinks } = await drinkRequest(`search.php?s=${input}`);
-          setLoadDrinks(drinks);
-        },
-        'first-letter': async (input) => {
-          const { drinks } = drinkRequest(`search.php?f=${input}`);
-          if (input.length === 1) {
-            setLoadDrinks(await drinks);
-          } else {
-            global.alert('Sua busca deve conter somente 1 (um) caracter');
-          }
-        },
-      },
-    };
-    requestApi[pathname][radioButton](searchInput);
-  }
 
   return (
     <div>
       <Header setTitle="Bebidas" />
 
-      {search === true
-        ? <SearchBar handleSubmitButton={ handleSubmitButton } />
+      {search === true ? <SearchBar
+        handleSubmitButton={ () => handleSubmitDrinks(
+          searchInput, setLoadDrinks, radioButton, history,
+        ) }
+      />
         : null}
       <CardList />
 
@@ -65,11 +55,12 @@ function Bebidas({ search, radioButton, searchInput, setLoadDrinks }) {
   );
 }
 
-Bebidas.propTypes = {
+DrinksPage.propTypes = {
   radioButton: PropTypes.string.isRequired,
   search: PropTypes.bool.isRequired,
   searchInput: PropTypes.string.isRequired,
   setLoadDrinks: PropTypes.func.isRequired,
+  drinksIngredients: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -78,11 +69,11 @@ const mapStateToProps = (state) => ({
   searchInput: state.searchInput,
   drinks: state.drinks,
   foods: state.foods,
+  drinksIngredients: state.loadDrinksIngredients,
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // setLoadFoods: (payload) => dispatch(setLoadFoodsAction(payload)),
   setLoadDrinks: (payload) => dispatch(setLoadDrinksAction(payload)),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Bebidas);
+export default connect(mapStateToProps, mapDispatchToProps)(DrinksPage);

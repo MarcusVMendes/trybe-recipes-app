@@ -7,6 +7,8 @@ import radioButton from './radioFilters';
 import searchInput from './serchText';
 import loadFoods from './loadFoods';
 import loadDrinks from './loadDrinks';
+import loadDrinksIngredients from './loadDrinksIngredients';
+import loadFoodsIngredients from './loadFoodsIngredients';
 
 const rootReducer = combineReducers({
   search,
@@ -17,6 +19,8 @@ const rootReducer = combineReducers({
   searchInput,
   loadDrinks,
   loadFoods,
+  loadFoodsIngredients,
+  loadDrinksIngredients,
 });
 
 export default rootReducer;

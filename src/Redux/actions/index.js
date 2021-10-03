@@ -7,6 +7,8 @@ export const RADIO_BUTTON = 'RADIO_BUTTON';
 export const SEARCH_TEXT = 'SEARCH_TEXT';
 export const LOAD_DRINKS = 'LOAD_DRINKS';
 export const LOAD_FOODS = 'LOAD_FOODS';
+export const LOAD_FOODS_INGREDIENTS = 'LOAD_FOODS_INGREDIENTS';
+export const LOAD_DRINKS_INGREDIENTS = 'LOAD_DRINKS_INGREDIENTS';
 
 export const setSearchbar = (payload) => ({
   type: SET_SEARCHBAR,
@@ -45,5 +47,15 @@ export const setLoadFoods = (payload) => ({
 
 export const setLoadDrinks = (payload) => ({
   type: LOAD_DRINKS,
+  payload,
+});
+
+export const setLoadFoodsIngredients = (payload) => ({
+  type: LOAD_FOODS_INGREDIENTS,
+  payload,
+});
+
+export const setLoadDrinksIngredients = (payload) => ({
+  type: LOAD_DRINKS_INGREDIENTS,
   payload,
 });

@@ -36,37 +36,6 @@ function FoodsPage({ search, setLoadFoods, radioButton, searchInput, foodsIngred
   https://blog.rocketseat.com.br/substituindo-a-instrucao-switch-por-object-literal/
   */
 
-  // async function handleSubmitButton() {
-  //   const requestApi = {
-  //     '/comidas': {
-  //       ingredient: async (input) => {
-  //         const { meals } = await foodRequest(`filter.php?i=${input}`);
-  //         setLoadFoods(meals);
-  //       },
-  //       name: async (input) => {
-  //         const { meals } = await foodRequest(`search.php?s=${input}`);
-  //         setLoadFoods(meals);
-  //       },
-  //       'first-letter': async (input) => {
-  //         if (input.length === 1) {
-  //           const { meals } = foodRequest(`search.php?f=${input}`);
-  //           setLoadFoods(await meals);
-  //         } else {
-  //           global.alert('Sua busca deve conter somente 1 (um) caracter');
-  //           console.log('2 letras');
-  //         }
-  //       },
-  //     },
-  //   };
-  //   requestApi[pathname][radioButton](searchInput);
-  // }
-  // if (setLoadFoods === []) {
-  //   return <p>Loading...</p>;
-  // }
-  // const setFoods = handleSubmitFoods(
-  //   searchInput, setLoadFoods, radioButton, history,
-  // );
-
   return (
     <div>
       <Header setTitle="Comidas" />

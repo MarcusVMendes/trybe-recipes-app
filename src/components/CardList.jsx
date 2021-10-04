@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 import Card from './Card';
-//
+
 function CardList({ loadFoods, loadDrinks }) {
   const MAX_CARD_LENGTH = 11;
   const { location: { pathname } } = useHistory();

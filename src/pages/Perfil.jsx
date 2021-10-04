@@ -6,14 +6,11 @@ import Header from '../components/Header';
 
 function Perfil() {
   const history = useHistory();
-  // const { email } = props;
   const user = JSON.parse(localStorage.getItem('user'));
 
   return (
-    // const title = 'perfil'
     <div className="wrapper">
       <Header setTitle="Perfil" />
-      {/* Requisito 82 e 83 */}
       <p data-testid="profile-email">
         {
           Object.values((!user) ? 'email@email.com' : user)

@@ -28,3 +28,9 @@
   height: 100px;
   width: 50%;
 }
+
+/* Receitas em Progresso */
+.recipe-in-progress-container img {
+  height: 100px;
+  width: 50%;
+}

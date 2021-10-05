@@ -10,6 +10,7 @@ import CardList from '../components/CardList';
 import SearchBar from '../components/SearchBar';
 import handleSubmitFoods from '../helper/helperFunctionsFoods';
 import { setLoadFoods as setLoadFoodsAction } from '../Redux/actions';
+import Categories from '../components/Categories';
 
 function FoodsPage({ search, setLoadFoods, radioButton, searchInput, foodsIngredients }) {
   const history = useHistory();
@@ -46,6 +47,7 @@ function FoodsPage({ search, setLoadFoods, radioButton, searchInput, foodsIngred
         ) }
       />
         : null}
+      <Categories />
       <CardList />
 
       <Footer />

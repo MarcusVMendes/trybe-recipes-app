@@ -10,6 +10,7 @@ import CardList from '../components/CardList';
 import SearchBar from '../components/SearchBar';
 import handleSubmitDrinks from '../helper/helperFunctionsDrinks';
 import { setLoadDrinks as setLoadDrinksAction } from '../Redux/actions';
+import Categories from '../components/Categories';
 
 function DrinksPage(
   { search, radioButton, searchInput, setLoadDrinks, drinksIngredients },
@@ -48,6 +49,7 @@ function DrinksPage(
         ) }
       />
         : null}
+      <Categories />
       <CardList />
 
       <Footer />
